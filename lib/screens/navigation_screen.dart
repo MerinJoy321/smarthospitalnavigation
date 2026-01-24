@@ -95,7 +95,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
 
                 // Instruction card
-                if (!_showMap) _buildInstructionCard(instruction),
+                _buildInstructionCard(instruction),
 
                 // Verification buttons
                 _buildVerificationButtons(context, state),
