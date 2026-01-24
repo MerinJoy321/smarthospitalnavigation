@@ -378,9 +378,9 @@ class _VisualizerPainter extends CustomPainter {
         text: distanceText,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 28,
+          fontSize: 42,
           fontWeight: FontWeight.w900,
-          shadows: [Shadow(color: Colors.black, blurRadius: 8, offset: Offset(0, 2))],
+          shadows: [Shadow(color: Colors.black, blurRadius: 12, offset: Offset(0, 4))],
         ),
       ),
       textDirection: TextDirection.ltr,

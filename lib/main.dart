@@ -41,11 +41,28 @@ class IndoorNavigationApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.indigo,
+            seedColor: Colors.teal, // More medical/accessible teal
             brightness: Brightness.light,
           ),
           useMaterial3: true,
           fontFamily: 'Roboto',
+          textTheme: const TextTheme(
+            headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+            bodyMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+            labelLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
         ),
         home: const AppShell(),
         routes: {
@@ -279,6 +296,15 @@ class _AppShellState extends State<AppShell> {
         onDonePressed: _onDonePressed,
         onNegativePressed: _onNegativePressed,
         onLostPressed: _onLostPressed,
+        onNodeReconfirmed: (nodeId) {
+          final state = context.read<NavigationState>();
+          state.setCurrentNode(nodeId);
+          // Force recalculation if same node to restart instructions
+          if (state.currentNode == nodeId) {
+            _routeController.recalculateRoute();
+            _instructionController.generateInstructions();
+          }
+        },
       );
     }
 

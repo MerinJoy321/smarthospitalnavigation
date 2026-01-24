@@ -64,40 +64,40 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // Start Location Selection
               const Text(
-                'Start from',
+                'I am at:',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+                  color: Colors.teal,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               _buildLocationSelector(
-                label: 'Current Location',
+                label: 'This place',
                 selectedId: _selectedStartNode,
                 onTap: () => _showLocationPicker(
-                  title: 'Select Start Location',
+                  title: 'Where are you?',
                   onSelected: (id) {
                     setState(() => _selectedStartNode = id);
-                    state.setCurrentNode(id); // Update global state immediately
+                    state.setCurrentNode(id);
                   },
                 ),
                 icon: Icons.my_location,
-                accentColor: Colors.indigo,
+                accentColor: Colors.teal,
               ),
               
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
 
               // Destination Selection
               const Text(
-                'To Destination',
+                'I want to go to:',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+                  color: Colors.teal,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Expanded(
                 child: _buildDestinationList(),
               ),
@@ -161,14 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     label,
                     style: TextStyle(
                       color: Colors.grey.shade600,
-                      fontSize: 12,
+                      fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     displayText,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -226,9 +226,10 @@ class _HomeScreenState extends State<HomeScreen> {
       itemBuilder: (context, index) {
         final node = nodes[index];
         return ListTile(
-          leading: Icon(_getNodeIcon(node.type), color: _getNodeColor(node.type)),
-          title: Text(node.name),
-          subtitle: Text('Floor ${node.floor}'),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          leading: Icon(_getNodeIcon(node.type), color: _getNodeColor(node.type), size: 36),
+          title: Text(node.name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          subtitle: Text('Floor ${node.floor}', style: const TextStyle(fontSize: 18)),
           onTap: () {
             onSelected(node.id);
             Navigator.pop(context);
@@ -290,15 +291,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             node.name,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
                             ),
                           ),
                           Text(
                             'Floor ${node.floor}',
                             style: TextStyle(
                               color: Colors.grey.shade600,
-                              fontSize: 12,
+                              fontSize: 18,
                             ),
                           ),
                         ],
@@ -328,22 +329,22 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.indigo,
+          backgroundColor: Colors.teal,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(20),
           ),
-          elevation: 4,
+          elevation: 6,
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.navigation),
-            SizedBox(width: 8),
+            Icon(Icons.navigation, size: 32),
+            SizedBox(width: 12),
             Text(
-              'Start Navigation',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'GO NOW',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 1.2),
             ),
           ],
         ),

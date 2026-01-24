@@ -260,15 +260,15 @@ class _FloorMapPainter extends CustomPainter {
         // Halo
         final haloPaint = Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3
-          ..color = Colors.green.withOpacity(0.5);
-        canvas.drawCircle(pos, 20, haloPaint);
+          ..strokeWidth = 5
+          ..color = Colors.green.withOpacity(0.6);
+        canvas.drawCircle(pos, 30, haloPaint);
         
         // Dot
         final dotPaint = Paint()
           ..style = PaintingStyle.fill
-          ..color = Colors.green;
-        canvas.drawCircle(pos, 8, dotPaint);
+          ..color = Colors.green.shade700;
+        canvas.drawCircle(pos, 12, dotPaint);
       }
     }
 
@@ -293,19 +293,19 @@ class _FloorMapPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     
     // Pin head
-    canvas.drawCircle(Offset(pos.dx, pos.dy - 20), 12, paint);
+    canvas.drawCircle(Offset(pos.dx, pos.dy - 30), 18, paint);
     
     // Pin point
     final path = Path();
-    path.moveTo(pos.dx - 12, pos.dy - 20);
-    path.lineTo(pos.dx + 12, pos.dy - 20);
+    path.moveTo(pos.dx - 18, pos.dy - 30);
+    path.lineTo(pos.dx + 18, pos.dy - 30);
     path.lineTo(pos.dx, pos.dy); // Point tip
     path.close();
     canvas.drawPath(path, paint);
     
     // White dot in center
     paint.color = Colors.white;
-    canvas.drawCircle(Offset(pos.dx, pos.dy - 20), 4, paint);
+    canvas.drawCircle(Offset(pos.dx, pos.dy - 30), 6, paint);
   }
 
   @override

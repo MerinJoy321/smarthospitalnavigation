@@ -4,6 +4,7 @@ import '../state/navigation_state.dart';
 import '../views/three_d/navigation_visualizer.dart';
 import '../views/maps/floor_map_view.dart';
 import '../graph/graph_loader.dart';
+import '../graph/graph_data.dart';
 
 /// Active navigation screen with 3D view, map, and instructions
 class NavigationScreen extends StatefulWidget {
@@ -20,7 +21,10 @@ class NavigationScreen extends StatefulWidget {
     this.onDonePressed,
     this.onNegativePressed,
     this.onLostPressed,
+    this.onNodeReconfirmed, // New callback
   });
+
+  final Function(String)? onNodeReconfirmed;
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -56,10 +60,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     _showMap = !_showMap;
                   });
                 },
-                icon: Icon(_showMap ? Icons.explore : Icons.map, color: Colors.white),
+                icon: Icon(_showMap ? Icons.explore : Icons.map, color: Colors.white, size: 28),
                 label: Text(
-                  _showMap ? 'Show Street View' : 'Show Map',
-                  style: const TextStyle(color: Colors.white),
+                  _showMap ? 'View Path' : 'View Map',
+                  style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(width: 8),
@@ -114,6 +118,75 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return GraphLoader.graph.getNode(currentNode)?.floor ?? 1;
   }
 
+  void _showLocationPicker(BuildContext context, NavigationState state) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(20),
+        height: 500,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Where are you now?',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: _buildNodeList(context, state),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNodeList(BuildContext context, NavigationState state) {
+    if (!GraphLoader.isLoaded) return const Center(child: CircularProgressIndicator());
+    
+    final nodes = GraphLoader.graph.nodes.toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
+
+    return ListView.builder(
+      itemCount: nodes.length,
+      itemBuilder: (context, index) {
+        final node = nodes[index];
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          leading: Icon(_getNodeIcon(node.type), color: _getNodeColor(node.type), size: 32),
+          title: Text(node.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          subtitle: Text('Floor ${node.floor}', style: const TextStyle(fontSize: 16)),
+          onTap: () {
+            widget.onNodeReconfirmed?.call(node.id);
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Position updated to ${node.name}'),
+                backgroundColor: Colors.teal,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Color _getNodeColor(NodeType type) {
+    switch (type) {
+      case NodeType.entrance: return Colors.orange;
+      case NodeType.room: return Colors.teal;
+      default: return Colors.grey;
+    }
+  }
+
   Widget _buildInstructionCard(Map<String, dynamic>? instruction) {
     final text = instruction?['text'] as String? ?? 'Loading instructions...';
     // Hide distance for info/hints
@@ -144,11 +217,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ),
             child: Icon(
               _getInstructionIcon(instruction?['type'] as String?),
-              color: isInfo ? Colors.orange : Colors.indigo,
-              size: 28,
+              color: isInfo ? Colors.orange : Colors.teal,
+              size: 48,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,16 +229,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 Text(
                   text,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 if (distance != null)
                   Text(
-                    '~${distance.toInt()} meters',
+                    '~${distance.toInt()} meters away',
                     style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 14,
+                      color: Colors.teal.shade700,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
               ],
@@ -212,33 +286,35 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   // Button 1: "No" (or "Still Looking") -> Show Hint or Lost
                   // Button 2: "Yes" (or "Done") -> Next
                   
-                  icon: Icon(isHint ? Icons.help : Icons.close),
-                  label: Text(isHint ? "Still Can't Find" : 'No'),
+                  icon: Icon(isHint ? Icons.help : Icons.close, size: 32),
+                  label: Text(isHint ? "STILL LOST" : 'NO', style: const TextStyle(fontSize: 22)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade400,
+                    backgroundColor: Colors.red.shade600,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    elevation: 4,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 20),
                // Yes Button
               Expanded(
                 flex: 2,
                 child: ElevatedButton.icon(
                   onPressed: widget.onDonePressed,
-                  icon: const Icon(Icons.check_circle),
-                  label: const Text('Yes, I am here'),
+                  icon: const Icon(Icons.check_circle, size: 36),
+                  label: const Text('I AM HERE', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.green.shade700,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    elevation: 8,
                   ),
                 ),
               ),
@@ -246,20 +322,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
           if (helperText.isNotEmpty)
              Padding(
-               padding: const EdgeInsets.only(top: 8.0),
+               padding: const EdgeInsets.only(top: 12.0),
                child: Text(
                  helperText,
+                 textAlign: TextAlign.center,
                  style: TextStyle(
-                   color: Colors.grey.shade600,
-                   fontStyle: FontStyle.italic,
-                   fontSize: 12,
+                   color: Colors.teal.shade800,
+                   fontWeight: FontWeight.bold,
+                   fontSize: 18,
                  ),
                ),
              ),
-          // Keep explicit Lost button? Maybe as a small text button below
-          TextButton(
-            onPressed: widget.onLostPressed, 
-            child: const Text("Completely Lost? Reset Position"),
+          const SizedBox(height: 8),
+          TextButton.icon(
+            onPressed: () => _showLocationPicker(context, state), 
+            icon: const Icon(Icons.refresh, size: 28),
+            label: const Text(
+              "I AM LOST - RE-CENTER", 
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+            ),
           )
         ],
       ),
@@ -286,6 +367,21 @@ class _NavigationScreenState extends State<NavigationScreen> {
         return Icons.info_outline;
       default:
         return Icons.navigation;
+    }
+  }
+
+  IconData _getNodeIcon(NodeType type) {
+    switch (type) {
+      case NodeType.entrance:
+        return Icons.door_front_door;
+      case NodeType.room:
+        return Icons.meeting_room;
+      case NodeType.lift:
+        return Icons.elevator;
+      case NodeType.stairs:
+        return Icons.stairs;
+      default:
+        return Icons.place;
     }
   }
 }
