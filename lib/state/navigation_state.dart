@@ -95,6 +95,24 @@ class NavigationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Insert an instruction at the current index (shifts current and subsequent forward)
+  /// or at specific index if needed.
+  void insertInstruction(Map<String, dynamic> instruction) {
+    if (_instructions.isEmpty) {
+      _instructions = [instruction];
+      _currentInstructionIndex = 0;
+    } else {
+      // meaningful place: right now? or next?
+      // Logic: If user says "No", we want to show a hint immediately.
+      // So we insert at current index, pushing the current one to next?
+      // Or we replace current?
+      // Better: Insert at current index so it becomes the displayed one.
+      _instructions.insert(_currentInstructionIndex, instruction);
+      // do not increment index, as we want to see the new one.
+    }
+    notifyListeners();
+  }
+
   /// Advance to next instruction
   /// Returns true if advanced, false if already at end
   bool advanceInstruction() {

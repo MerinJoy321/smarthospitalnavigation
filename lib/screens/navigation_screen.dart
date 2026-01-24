@@ -10,6 +10,7 @@ class NavigationScreen extends StatefulWidget {
   final VoidCallback? onNavigationComplete;
   final VoidCallback? onNavigationCancelled;
   final VoidCallback? onDonePressed;
+  final VoidCallback? onNegativePressed; // New callback
   final VoidCallback? onLostPressed;
 
   const NavigationScreen({
@@ -17,6 +18,7 @@ class NavigationScreen extends StatefulWidget {
     this.onNavigationComplete,
     this.onNavigationCancelled,
     this.onDonePressed,
+    this.onNegativePressed,
     this.onLostPressed,
   });
 
@@ -114,7 +116,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Widget _buildInstructionCard(Map<String, dynamic>? instruction) {
     final text = instruction?['text'] as String? ?? 'Loading instructions...';
-    final distance = instruction?['distanceEstimate'] as double?;
+    // Hide distance for info/hints
+    final isInfo = instruction?['type'] == 'info';
+    final distance = isInfo ? null : instruction?['distanceEstimate'] as double?;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -135,12 +139,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.indigo.shade50,
+              color: isInfo ? Colors.orange.shade50 : Colors.indigo.shade50,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               _getInstructionIcon(instruction?['type'] as String?),
-              color: Colors.indigo,
+              color: isInfo ? Colors.orange : Colors.indigo,
               size: 28,
             ),
           ),
@@ -188,19 +192,30 @@ class _NavigationScreenState extends State<NavigationScreen> {
        }
     }
 
+    // Check if showing a hint (info)
+    final isHint = state.currentInstruction?['type'] == 'info';
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Column(
         children: [
           Row(
             children: [
+              // No Button (Replacing Lost or Next to it)
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: widget.onLostPressed,
-                  icon: const Icon(Icons.help_outline),
-                  label: const Text("I'm Lost"),
+                  onPressed: isHint ? widget.onDonePressed : widget.onNegativePressed, // If hint, Done dismisses it. Wait, "No" on hint?
+                  // Design:
+                  // If normal instruction: Yes = Done/Next, No = Show Hint.
+                  // If hint: Yes = Done/Next (Proceed), No = Still lost? -> Maybe "I'm Lost"?
+                  // Let's keep it simple:
+                  // Button 1: "No" (or "Still Looking") -> Show Hint or Lost
+                  // Button 2: "Yes" (or "Done") -> Next
+                  
+                  icon: Icon(isHint ? Icons.help : Icons.close),
+                  label: Text(isHint ? "Still Can't Find" : 'No'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade400,
+                    backgroundColor: Colors.red.shade400,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -210,12 +225,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
               ),
               const SizedBox(width: 16),
+               // Yes Button
               Expanded(
                 flex: 2,
                 child: ElevatedButton.icon(
                   onPressed: widget.onDonePressed,
                   icon: const Icon(Icons.check_circle),
-                  label: const Text('Done'),
+                  label: const Text('Yes, I am here'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
@@ -240,6 +256,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
                  ),
                ),
              ),
+          // Keep explicit Lost button? Maybe as a small text button below
+          TextButton(
+            onPressed: widget.onLostPressed, 
+            child: const Text("Completely Lost? Reset Position"),
+          )
         ],
       ),
     );
@@ -261,6 +282,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         return Icons.elevator;
       case 'arriveDestination':
         return Icons.flag;
+      case 'info': // New case
+        return Icons.info_outline;
       default:
         return Icons.navigation;
     }

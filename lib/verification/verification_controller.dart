@@ -77,8 +77,40 @@ class VerificationController {
         onVerification?.call(VerificationResult.confirmed);
       }
     } else {
-      // Node changed, just notify confirmed
        onVerification?.call(VerificationResult.confirmed);
+    }
+  }
+
+  /// Called when user taps "No" button (Negative Verification)
+  void verifyNegative() {
+    debugPrint('VerificationController: User pressed No - providing hint');
+    
+    // Logic: Provide a hint based on the *target* node of the current instruction
+    // We want to describe the target node better.
+    final instruction = _instructionController.currentInstruction;
+    final targetNodeId = instruction?['toNode'] as String?;
+    
+    if (targetNodeId != null && GraphLoader.isLoaded) {
+      final node = GraphLoader.graph.getNode(targetNodeId);
+      if (node != null) {
+        // Construct a hint
+        String hintText = "Look for ${node.name}.";
+        
+        // Add more detail based on type
+        // This is a simple logic, could be more complex
+         hintText += " It is a ${node.type.name} on floor ${node.floor}.";
+         
+         if (node.floor != (_state.currentNode != null ? GraphLoader.graph.getNode(_state.currentNode!)?.floor : 0)) {
+             hintText += " You may need to change floors.";
+         }
+
+        _instructionController.insertIntermediateInstruction(hintText);
+        // We do NOT call onVerification because we are still in the same step, just added a sub-step.
+        // The UI will update automatically because NavigationState notifies listeners.
+      }
+    } else {
+       // Fallback hint
+       _instructionController.insertIntermediateInstruction("Scan the area carefully. Move slightly to detect beacons.");
     }
   }
 

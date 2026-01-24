@@ -55,6 +55,18 @@ class InstructionController {
     _state.setInstructions(InstructionBuilder.toMapList(instructions));
   }
 
+  /// Insert an intermediate instruction (hint)
+  void insertIntermediateInstruction(String text) {
+    debugPrint('InstructionController: Inserting intermediate hint: $text');
+    final hint = {
+      'text': text,
+      'type': 'info', // Special type for hints
+      'distanceEstimate': 0.0,
+      'toNode': _state.currentNode, // Stay at current node logic
+    };
+    _state.insertInstruction(hint);
+  }
+
   /// Get current instruction
   Map<String, dynamic>? get currentInstruction => _state.currentInstruction;
 

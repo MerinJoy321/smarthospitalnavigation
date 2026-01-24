@@ -23,6 +23,7 @@ import 'demo/demo_controller.dart';
 import 'screens/home_screen.dart';
 import 'screens/navigation_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const IndoorNavigationApp());
@@ -67,6 +68,7 @@ class _AppShellState extends State<AppShell> {
   bool _isLoading = true;
   bool _isNavigating = false;
   String? _error;
+  bool _isLoggedIn = false;
 
   // Controllers
   late BeaconEmitter _beaconEmitter;
@@ -158,6 +160,10 @@ class _AppShellState extends State<AppShell> {
 
   void _onDonePressed() {
     _verificationController.confirmInstruction();
+  }
+
+  void _onNegativePressed() {
+    _verificationController.verifyNegative();
   }
 
   void _onLostPressed() {
@@ -256,11 +262,22 @@ class _AppShellState extends State<AppShell> {
       );
     }
 
+    if (!_isLoggedIn) {
+      return LoginScreen(
+        onLoginSuccess: () {
+          setState(() {
+            _isLoggedIn = true;
+          });
+        },
+      );
+    }
+
     if (_isNavigating) {
       return NavigationScreen(
         onNavigationComplete: () => setState(() => _isNavigating = false),
         onNavigationCancelled: _cancelNavigation,
         onDonePressed: _onDonePressed,
+        onNegativePressed: _onNegativePressed,
         onLostPressed: _onLostPressed,
       );
     }
