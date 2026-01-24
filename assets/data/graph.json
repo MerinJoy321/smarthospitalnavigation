@@ -1,0 +1,522 @@
+{
+  "nodes": [
+    {
+      "id": "F0_ENTRY",
+      "floor": 0,
+      "x": 50,
+      "y": 250,
+      "type": "entrance",
+      "name": "Main Entrance"
+    },
+    {
+      "id": "F0_LIFT_LOBBY",
+      "floor": 0,
+      "x": 150,
+      "y": 250,
+      "type": "lift",
+      "name": "Lift Lobby"
+    },
+    {
+      "id": "F0_RECEPTION",
+      "floor": 0,
+      "x": 150,
+      "y": 150,
+      "type": "room",
+      "name": "Reception"
+    },
+    {
+      "id": "F0_MAIN_CORRIDOR",
+      "floor": 0,
+      "x": 500,
+      "y": 250,
+      "type": "corridor",
+      "name": "Main Corridor"
+    },
+    {
+      "id": "F0_CONSULTATION_HALL",
+      "floor": 0,
+      "x": 500,
+      "y": 150,
+      "type": "junction",
+      "name": "Consultation Hall"
+    },
+    {
+      "id": "F0_PHARMACY",
+      "floor": 0,
+      "x": 300,
+      "y": 150,
+      "type": "room",
+      "name": "Pharmacy",
+      "anchor": {
+        "x": 350,
+        "y": 80
+      }
+    },
+    {
+      "id": "F0_WAITING",
+      "floor": 0,
+      "x": 700,
+      "y": 250,
+      "type": "room",
+      "name": "Waiting Area"
+    },
+    {
+      "id": "F0_STAIRS",
+      "floor": 0,
+      "x": 900,
+      "y": 250,
+      "type": "stairs",
+      "name": "Stairs"
+    },
+    {
+      "id": "F0_FACILITIES_JUNCTION",
+      "floor": 0,
+      "x": 750,
+      "y": 250,
+      "type": "junction",
+      "name": "Facilities Junction"
+    },
+    {
+      "id": "F0_RECORDS",
+      "floor": 0,
+      "x": 750,
+      "y": 350,
+      "type": "room",
+      "name": "Records Room",
+      "anchor": {
+        "x": 800,
+        "y": 350
+      }
+    },
+    {
+      "id": "F1_LIFT_LOBBY",
+      "floor": 1,
+      "x": 150,
+      "y": 250,
+      "type": "lift",
+      "name": "Lift Lobby F1"
+    },
+    {
+      "id": "F1_MAIN_CORRIDOR",
+      "floor": 1,
+      "x": 300,
+      "y": 250,
+      "type": "junction",
+      "name": "Main Junction F1"
+    },
+    {
+      "id": "F1_RADIOLOGY_HALL",
+      "floor": 1,
+      "x": 300,
+      "y": 150,
+      "type": "corridor",
+      "name": "Radiology Hall"
+    },
+    {
+      "id": "F1_RADIOLOGY",
+      "floor": 1,
+      "x": 300,
+      "y": 50,
+      "type": "room",
+      "name": "Radiology Dept",
+      "anchor": {
+        "x": 350,
+        "y": 20
+      }
+    },
+    {
+      "id": "F1_CORRIDOR_XRAY_DOOR",
+      "floor": 1,
+      "x": 400,
+      "y": 150,
+      "type": "corridor",
+      "name": "X-Ray Corridor"
+    },
+    {
+      "id": "F1_XRAY",
+      "floor": 1,
+      "x": 400,
+      "y": 100,
+      "type": "room",
+      "name": "X-Ray Lab"
+    },
+    {
+      "id": "F1_CORRIDOR_LAB_DOOR",
+      "floor": 1,
+      "x": 500,
+      "y": 150,
+      "type": "corridor",
+      "name": "Lab Corridor"
+    },
+    {
+      "id": "F1_LAB",
+      "floor": 1,
+      "x": 500,
+      "y": 100,
+      "type": "room",
+      "name": "Pathology Lab"
+    },
+    {
+      "id": "F1_CLINICS_HALL",
+      "floor": 1,
+      "x": 300,
+      "y": 350,
+      "type": "corridor",
+      "name": "Clinics Hall"
+    },
+    {
+      "id": "F1_ORTHOPEDIC",
+      "floor": 1,
+      "x": 200,
+      "y": 350,
+      "type": "room",
+      "name": "Orthopedic Clinic"
+    },
+    {
+      "id": "F1_DENTAL",
+      "floor": 1,
+      "x": 400,
+      "y": 350,
+      "type": "room",
+      "name": "Dental Clinic"
+    },
+    {
+      "id": "F1_STAIRS",
+      "floor": 1,
+      "x": 900,
+      "y": 250,
+      "type": "stairs",
+      "name": "Stairs F1"
+    },
+    {
+      "id": "F2_LIFT_LOBBY",
+      "floor": 2,
+      "x": 150,
+      "y": 250,
+      "type": "lift",
+      "name": "Lift Lobby F2"
+    },
+    {
+      "id": "F2_ICU_JUNCTION",
+      "floor": 2,
+      "x": 300,
+      "y": 250,
+      "type": "junction",
+      "name": "ICU Junction"
+    },
+    {
+      "id": "F2_ICU",
+      "floor": 2,
+      "x": 300,
+      "y": 150,
+      "type": "room",
+      "name": "ICU"
+    },
+    {
+      "id": "F2_NICU_JUNCTION",
+      "floor": 2,
+      "x": 600,
+      "y": 250,
+      "type": "junction",
+      "name": "NICU Junction"
+    },
+    {
+      "id": "F2_NICU",
+      "floor": 2,
+      "x": 600,
+      "y": 150,
+      "type": "room",
+      "name": "NICU"
+    },
+    {
+      "id": "F2_WARD",
+      "floor": 2,
+      "x": 750,
+      "y": 250,
+      "type": "room",
+      "name": "General Ward"
+    },
+    {
+      "id": "F2_STAIRS",
+      "floor": 2,
+      "x": 900,
+      "y": 250,
+      "type": "stairs",
+      "name": "Stairs F2"
+    }
+  ],
+  "edges": [
+    {
+      "from": "F0_ENTRY",
+      "to": "F0_LIFT_LOBBY",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_LIFT_LOBBY",
+      "to": "F0_RECEPTION",
+      "cost": 15,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_LIFT_LOBBY",
+      "to": "F0_MAIN_CORRIDOR",
+      "cost": 35,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_MAIN_CORRIDOR",
+      "to": "F0_CONSULTATION_HALL",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_RECEPTION",
+      "to": "F0_PHARMACY",
+      "cost": 15,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_MAIN_CORRIDOR",
+      "to": "F0_WAITING",
+      "cost": 20,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_MAIN_CORRIDOR",
+      "to": "F0_FACILITIES_JUNCTION",
+      "cost": 25,
+      "type": "corridor",
+      "polyline": [
+        {
+          "x": 500,
+          "y": 250
+        },
+        {
+          "x": 750,
+          "y": 250
+        }
+      ]
+    },
+    {
+      "from": "F0_FACILITIES_JUNCTION",
+      "to": "F0_RECORDS",
+      "cost": 15,
+      "type": "corridor",
+      "polyline": [
+        {
+          "x": 750,
+          "y": 250
+        },
+        {
+          "x": 750,
+          "y": 350
+        }
+      ]
+    },
+    {
+      "from": "F0_FACILITIES_JUNCTION",
+      "to": "F0_STAIRS",
+      "cost": 15,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_MAIN_CORRIDOR",
+      "to": "F0_STAIRS",
+      "cost": 40,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_LIFT_LOBBY",
+      "to": "F1_MAIN_CORRIDOR",
+      "cost": 15,
+      "type": "corridor",
+      "polyline": [
+        {
+          "x": 150,
+          "y": 250
+        },
+        {
+          "x": 300,
+          "y": 250
+        }
+      ]
+    },
+    {
+      "from": "F1_MAIN_CORRIDOR",
+      "to": "F1_RADIOLOGY_HALL",
+      "cost": 10,
+      "type": "corridor",
+      "polyline": [
+        {
+          "x": 300,
+          "y": 250
+        },
+        {
+          "x": 300,
+          "y": 150
+        }
+      ]
+    },
+    {
+      "from": "F1_RADIOLOGY_HALL",
+      "to": "F1_RADIOLOGY",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_RADIOLOGY_HALL",
+      "to": "F1_CORRIDOR_XRAY_DOOR",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_CORRIDOR_XRAY_DOOR",
+      "to": "F1_XRAY",
+      "cost": 5,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_CORRIDOR_XRAY_DOOR",
+      "to": "F1_CORRIDOR_LAB_DOOR",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_CORRIDOR_LAB_DOOR",
+      "to": "F1_LAB",
+      "cost": 5,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_MAIN_CORRIDOR",
+      "to": "F1_CLINICS_HALL",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_CLINICS_HALL",
+      "to": "F1_ORTHOPEDIC",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_CLINICS_HALL",
+      "to": "F1_DENTAL",
+      "cost": 20,
+      "type": "corridor"
+    },
+    {
+      "from": "F1_MAIN_CORRIDOR",
+      "to": "F1_STAIRS",
+      "cost": 60,
+      "type": "corridor"
+    },
+    {
+      "from": "F2_LIFT_LOBBY",
+      "to": "F2_ICU_JUNCTION",
+      "cost": 15,
+      "type": "corridor"
+    },
+    {
+      "from": "F2_ICU_JUNCTION",
+      "to": "F2_ICU",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F2_ICU_JUNCTION",
+      "to": "F2_NICU_JUNCTION",
+      "cost": 30,
+      "type": "corridor",
+      "polyline": [
+        {
+          "x": 300,
+          "y": 250
+        },
+        {
+          "x": 400,
+          "y": 250
+        },
+        {
+          "x": 400,
+          "y": 280
+        },
+        {
+          "x": 500,
+          "y": 280
+        },
+        {
+          "x": 500,
+          "y": 250
+        },
+        {
+          "x": 600,
+          "y": 250
+        }
+      ]
+    },
+    {
+      "from": "F2_NICU_JUNCTION",
+      "to": "F2_NICU",
+      "cost": 10,
+      "type": "corridor"
+    },
+    {
+      "from": "F2_NICU_JUNCTION",
+      "to": "F2_WARD",
+      "cost": 15,
+      "type": "corridor"
+    },
+    {
+      "from": "F2_NICU_JUNCTION",
+      "to": "F2_STAIRS",
+      "cost": 30,
+      "type": "corridor"
+    },
+    {
+      "from": "F0_LIFT_LOBBY",
+      "to": "F1_LIFT_LOBBY",
+      "cost": 20,
+      "type": "lift"
+    },
+    {
+      "from": "F1_LIFT_LOBBY",
+      "to": "F2_LIFT_LOBBY",
+      "cost": 20,
+      "type": "lift"
+    },
+    {
+      "from": "F0_STAIRS",
+      "to": "F1_STAIRS",
+      "cost": 30,
+      "type": "stairs"
+    },
+    {
+      "from": "F1_STAIRS",
+      "to": "F2_STAIRS",
+      "cost": 30,
+      "type": "stairs"
+    }
+  ],
+  "labels": [
+    {
+      "text": "SERVICE RESTRICTED",
+      "floor": 1,
+      "x": 800,
+      "y": 300
+    },
+    {
+      "text": "EQUIPMENT STORAGE",
+      "floor": 1,
+      "x": 700,
+      "y": 400
+    },
+    {
+      "text": "CONSULTATION\nROOM 1",
+      "floor": 1,
+      "x": 200,
+      "y": 100
+    }
+  ]
+}

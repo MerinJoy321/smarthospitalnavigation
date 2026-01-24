@@ -1,0 +1,58 @@
+{
+    "beacons": [
+        {
+            "beaconId": "B_F0_LIFT",
+            "nodeId": "F0_LIFT_LOBBY",
+            "floor": 0,
+            "type": "lift"
+        },
+        {
+            "beaconId": "B_F0_RECEPTION",
+            "nodeId": "F0_RECEPTION",
+            "floor": 0,
+            "type": "room"
+        },
+        {
+            "beaconId": "B_F1_LIFT",
+            "nodeId": "F1_LIFT_LOBBY",
+            "floor": 1,
+            "type": "lift"
+        },
+        {
+            "beaconId": "B_F1_JUNCTION",
+            "nodeId": "F1_MAIN_CORRIDOR",
+            "floor": 1,
+            "type": "junction"
+        },
+        {
+            "beaconId": "B_F1_RADIOLOGY",
+            "nodeId": "F1_RADIOLOGY",
+            "floor": 1,
+            "type": "room"
+        },
+        {
+            "beaconId": "B_F1_ORTHO",
+            "nodeId": "F1_ORTHOPEDIC",
+            "floor": 1,
+            "type": "room"
+        },
+        {
+            "beaconId": "B_F2_LIFT",
+            "nodeId": "F2_LIFT_LOBBY",
+            "floor": 2,
+            "type": "lift"
+        },
+        {
+            "beaconId": "B_F2_ICU",
+            "nodeId": "F2_ICU",
+            "floor": 2,
+            "type": "room"
+        },
+        {
+            "beaconId": "B_F2_NICU",
+            "nodeId": "F2_NICU",
+            "floor": 2,
+            "type": "room"
+        }
+    ]
+}

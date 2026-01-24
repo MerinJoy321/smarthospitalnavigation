@@ -1,0 +1,48 @@
+{
+    "scenarios": [
+        {
+            "id": "entry_to_pharmacy",
+            "name": "Entrance to Pharmacy",
+            "description": "Ground Floor: Main Entrance to Pharmacy",
+            "startNode": "F0_ENTRY",
+            "destinationNode": "F0_PHARMACY",
+            "accessibility": "normal",
+            "conditions": [
+                "normal"
+            ]
+        },
+        {
+            "id": "reception_to_radiology",
+            "name": "Reception to Radiology (F1)",
+            "description": "Take Lift to Floor 1 Radiology",
+            "startNode": "F0_RECEPTION",
+            "destinationNode": "F1_RADIOLOGY",
+            "accessibility": "normal",
+            "conditions": [
+                "normal"
+            ]
+        },
+        {
+            "id": "ortho_to_lab",
+            "name": "Orthopedic to Lab (F1)",
+            "description": "Floor 1: Clinic to Lab",
+            "startNode": "F1_ORTHOPEDIC",
+            "destinationNode": "F1_LAB",
+            "accessibility": "wheelchair",
+            "conditions": [
+                "normal"
+            ]
+        },
+        {
+            "id": "entry_to_icu",
+            "name": "Entrance to ICU (F2)",
+            "description": "Ground Floor to Floor 2 ICU",
+            "startNode": "F0_ENTRY",
+            "destinationNode": "F2_ICU",
+            "accessibility": "normal",
+            "conditions": [
+                "emergency"
+            ]
+        }
+    ]
+}
