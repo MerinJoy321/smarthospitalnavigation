@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../graph/graph_loader.dart';
 import '../../graph/graph_data.dart';
 import '../../state/navigation_state.dart';
+import 'dart:math' as math;
 import 'package:provider/provider.dart';
 
 class FloorMapView extends StatelessWidget {
@@ -112,27 +113,25 @@ class _FloorMapPainter extends CustomPainter {
 
     if (nodes.isEmpty) return;
 
-    // Calculate bounds
-    double minX = nodes.first.x, maxX = nodes.first.x;
-    double minY = nodes.first.y, maxY = nodes.first.y;
-    for (final node in nodes) {
-      if (node.x < minX) minX = node.x;
-      if (node.x > maxX) maxX = node.x;
-      if (node.y < minY) minY = node.y;
-      if (node.y > maxY) maxY = node.y;
-    }
+    // SVG viewBox dimensions (from floor SVG files)
+    // All floor maps use viewBox="0 0 1000 600"
+    const double svgWidth = 1000.0;
+    const double svgHeight = 600.0;
 
-    // Add padding
-    final padding = 40.0;
-    final scaleX = (size.width - padding * 2) / (maxX - minX + 1);
-    final scaleY = (size.height - padding * 2) / (maxY - minY + 1);
-    final scale = scaleX < scaleY ? scaleX : scaleY;
+    // Calculate scale to fit SVG viewBox into widget size (BoxFit.contain)
+    // This matches how SvgPicture.asset renders with fit: BoxFit.contain
+    final double scale = math.min(
+      size.width / svgWidth,
+      size.height / svgHeight
+    );
+    
+    // Calculate offsets to center the scaled content
+    final double dx = (size.width - svgWidth * scale) / 2;
+    final double dy = (size.height - svgHeight * scale) / 2;
 
+    // Transform from SVG coordinates to screen coordinates
     Offset toScreen(double x, double y) {
-      return Offset(
-        padding + (x - minX) * scale,
-        padding + (y - minY) * scale,
-      );
+      return Offset(x * scale + dx, y * scale + dy);
     }
 
     // Draw floor label
@@ -150,10 +149,10 @@ class _FloorMapPainter extends CustomPainter {
     textPainter.layout();
     textPainter.paint(canvas, const Offset(10, 10));
 
-    // Draw edges
+    // Draw edges (very subtle to avoid visual clutter)
     final edgePaint = Paint()
-      ..color = Colors.grey.shade300
-      ..strokeWidth = 3
+      ..color = Colors.grey.shade300.withOpacity(0.3)
+      ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
     for (final node in nodes) {
@@ -173,8 +172,8 @@ class _FloorMapPainter extends CustomPainter {
     // Draw route (G3: Route Rendering Correction)
     if (route.isNotEmpty) {
       final routePaint = Paint()
-        ..color = Colors.blue.shade400
-        ..strokeWidth = 5
+        ..color = Colors.blue.shade600
+        ..strokeWidth = 2
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round
         ..strokeJoin = StrokeJoin.round; // Smooth corners
@@ -257,18 +256,18 @@ class _FloorMapPainter extends CustomPainter {
       if (node != null && node.floor == floor) {
         final pos = toScreen(node.x, node.y);
         
-        // Halo
+        // Halo (reduced size)
         final haloPaint = Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 5
+          ..strokeWidth = 3
           ..color = Colors.green.withOpacity(0.6);
-        canvas.drawCircle(pos, 30, haloPaint);
+        canvas.drawCircle(pos, 20, haloPaint);
         
-        // Dot
+        // Dot (reduced size)
         final dotPaint = Paint()
           ..style = PaintingStyle.fill
           ..color = Colors.green.shade700;
-        canvas.drawCircle(pos, 12, dotPaint);
+        canvas.drawCircle(pos, 8, dotPaint);
       }
     }
 
@@ -287,25 +286,25 @@ class _FloorMapPainter extends CustomPainter {
   }
 
   void _drawDestinationPin(Canvas canvas, Offset pos) {
-    // Draw a Google Maps style pin
+    // Draw a Google Maps style pin (reduced size)
     final paint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
     
-    // Pin head
-    canvas.drawCircle(Offset(pos.dx, pos.dy - 30), 18, paint);
+    // Pin head (reduced size)
+    canvas.drawCircle(Offset(pos.dx, pos.dy - 20), 12, paint);
     
-    // Pin point
+    // Pin point (adjusted for smaller size)
     final path = Path();
-    path.moveTo(pos.dx - 18, pos.dy - 30);
-    path.lineTo(pos.dx + 18, pos.dy - 30);
+    path.moveTo(pos.dx - 12, pos.dy - 20);
+    path.lineTo(pos.dx + 12, pos.dy - 20);
     path.lineTo(pos.dx, pos.dy); // Point tip
     path.close();
     canvas.drawPath(path, paint);
     
-    // White dot in center
+    // White dot in center (adjusted for smaller size)
     paint.color = Colors.white;
-    canvas.drawCircle(Offset(pos.dx, pos.dy - 30), 6, paint);
+    canvas.drawCircle(Offset(pos.dx, pos.dy - 20), 4, paint);
   }
 
   @override

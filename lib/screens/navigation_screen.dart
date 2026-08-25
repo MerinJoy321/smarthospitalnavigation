@@ -43,8 +43,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         return Scaffold(
           backgroundColor: Colors.grey.shade100,
           appBar: AppBar(
-            title: const Text('Navigation'),
-            backgroundColor: Colors.indigo,
+            title: Text(_getNavigationTitle(state)),
+            backgroundColor: Colors.teal,
             foregroundColor: Colors.white,
             leading: IconButton(
               icon: const Icon(Icons.close),
@@ -116,6 +116,24 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final currentNode = state.currentNode;
     if (currentNode == null) return 1;
     return GraphLoader.graph.getNode(currentNode)?.floor ?? 1;
+  }
+
+  String _getNavigationTitle(NavigationState state) {
+    if (!GraphLoader.isLoaded) return 'Navigation';
+    final instruction = state.currentInstruction;
+    if (instruction == null) return 'Navigation';
+
+    final fromId = instruction['fromNode'] as String?;
+    final toId = instruction['toNode'] as String?;
+    if (fromId != null && toId != null) {
+      final fromFloor = GraphLoader.graph.getNode(fromId)?.floor ?? 0;
+      final toFloor = GraphLoader.graph.getNode(toId)?.floor ?? 0;
+      if (fromFloor != toFloor) {
+        return 'Floor $fromFloor ➔ Floor $toFloor';
+      }
+      return 'Floor $fromFloor';
+    }
+    return 'Navigation';
   }
 
   void _showLocationPicker(BuildContext context, NavigationState state) {
